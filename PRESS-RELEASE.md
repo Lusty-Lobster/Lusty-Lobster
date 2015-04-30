@@ -1,4 +1,4 @@
-# Project Name #
+# Project Rabbit Hole #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -16,29 +16,29 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+## Distributed Processesing Platform ##
+  > Have a ton of a data that you need to crunch but are stingy with your CPU cycles?  Fear not, Rabbit Hole is here to help.
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > We provide a platform for outsourcing your data processing for faster results.  When you need to process large amounts of data you can free up your own computer resources by distributing the task to other computers.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Rabbit Hole is an easy to use solution for data scientists and engineers to quickly process very large amounts of data.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > We distribute your data across our cloud of users, who take care of the processing of your data for you.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Sit back and relax, we'll handle your big data crunching needs for you.  Let's jump down that rabbit hole together!"
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Just sign up, upload your algorithm and data set, and we will do the rest!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "Why are you called Rabbit Hole..., but thank you so much for doing my data computing for me, now I have time to use my computer for other things!"
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Tired of waiting around while your computer crunches your data set?  Just head to Rabbit-Hole.com (brought to you by Lusty Lobster), and get started with using our cloud data computing today!
