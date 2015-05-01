@@ -1,6 +1,6 @@
 //client test stub
 angular.module('crunchApp', [])
-  .controller('crunchController', function($scope, $htpp) {
+  .controller('crunchController', function($scope, $http) {
     
     //task object stored here
     $scope.taskObject;
@@ -19,7 +19,7 @@ angular.module('crunchApp', [])
           var result = eval($scope.taskObject.alg)();
 
           //post the stuff back
-          $http.post('/api/', result).
+          $http.post('/api/', {result:result}).
             success(function(response, status, headers, config) {
               console.log('result successfully sent!');
             }).
