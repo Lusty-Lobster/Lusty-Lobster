@@ -13,10 +13,12 @@ module.exports.post = function (req, res, next) {
   if(!req.body.data){
     res.send('invalid data');
   }
+  console.log('new task recieved');
   var task = new Task({
     alg: req.body.alg,
     data: req.body.data,
     results: '[]',
+    complete: false,
     status: 'pending'
   }).save(function (err, task) {
     if (err) return console.error(err);
