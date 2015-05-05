@@ -38,20 +38,42 @@ var Crunch = React.createClass({
       method: 'GET',
       dataType: 'json',
       success: function(task) {
-        console.log(task.result);
-        var alg = task.result.alg;
-        var data = task.result.data;
-        window.location.hash = '#screensaver';
-        var result = eval(alg)(data);
-        console.log('result:', result);
+        // console.log(task.result);
+        // var alg = task.result.alg;
+        // var data = task.result.data;
+        // window.location.hash = '#screensaver';
+        // var result = eval(alg)(data);
+        // console.log('result:', result);
         // window.location.hash = '#crunch';
 
         // this.setState({task: data.result});
+
+        /* 
+
+        Using Web Workers
+        - Client: Crunch component makes GET request to signal server 
+        - Server: Server writes new task to file 'worker.js' (see example file)
+          - Updates algorithm (if needed) and data
+          - Send back task ID
+        - Client: On success, 
+            var worker = new Worker('worker.js'); (which does get request for worker.js)
+            worker.onmessage = function(e) {
+              var result = e.data;
+              // post results to server
+            };
+        - Server: receive POST and write results to whatever is storing results
+        
+        */
+
+
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('/api/crunch', status, err.toString());
       }.bind(this)
     });
+
+
+    
   },
   render: function() {
     return (
@@ -79,5 +101,9 @@ function render() {
 
 window.addEventListener('hashchange', render);
 render();
+
+
+
+
 
 
