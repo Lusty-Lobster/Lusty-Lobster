@@ -17,6 +17,9 @@ module.exports = function (app, express) {
   app.get('/api/crunch', function(){crunchController.get.apply(crunchController,arguments)});
   app.post('/api/crunch', function(){crunchController.post.apply(crunchController,arguments)});
 
+  app.param('id', function(){clientController.parseParam.apply(clientController,arguments)});
+  app.get('/api/client/:id', function(){clientController.getById.apply(clientController,arguments)});
+
   app.get('/api/client', function(){clientController.get.apply(clientController,arguments)});
   app.post('/api/client', function(){clientController.post.apply(clientController,arguments)});
   // app.use('/api/crunch', crunchRouter);
