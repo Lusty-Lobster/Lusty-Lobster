@@ -1,5 +1,4 @@
 var Task = require('../db/taskModel.js');
-console.log('initializing crunchController');
 
 var failThreshold = 4;
 var successThreshold = 4;
@@ -63,18 +62,14 @@ module.exports.get = function (req, res, next, code) {
 //TODO: refactor most of this into taskModel
 module.exports.post = function (req, res, next) {
   res.end();
-  //========================================================================
-  //the rest of the logic in this function is broken.
-  //So that the front end team can continue I'm going to cut off the codes execution here
-  //as far as the front ends logic is concerned the backend will be fully functional.
-  return;
   //if the result is from an early task, throw it away.
   if(currentTask===null)
     return;
-  //console.log('====================================', req.body);
   if(req.body.task!=currentTask.id)
     return;
-  //console.log(currentTask);
+  //check if the result is invalid
+  if(req.body.index===undefined || req.body.index===-1)
+    return;
   //if we already have enough results for that peice of data, throw it away
   if(currentTask.parsedResults[req.body.index].length>=successThreshold)
     return;
@@ -85,14 +80,15 @@ module.exports.post = function (req, res, next) {
   // CHECK IF ITS VALID
   // (check if the result equals the other results we have recieved)
   for(var i=0; i<currentTask.parsedResults[req.body.index].length; i++){
-    //ASSUMES a table or object is not returned.
     //TODO: use a deep equals to support arrays and objects
-    if(req.body.result!=currentTask.results[req.body.index][i]){
+    //stringify works... for now... lazy...
+    if( JSON.stringify(req.body.result)!=JSON.stringify(currentTask.parsedResults[req.body.index][i]) ){
       currentTask.parsedResults[req.body.index] = [ ];
       currentTask.failures[req.body.index] ++;
       //if we have recieved too many failures then assume the test is not consistant
       if(currentTask.failures>failThreshold){
-        currentTask.fail();
+        currentTask.fail(getNextTask);
+        currentTask=null;
         return;
       }
       valid = false;
@@ -102,19 +98,13 @@ module.exports.post = function (req, res, next) {
   // if the result is equal to the other results then add it to our results list
   if(valid){
     currentTask.parsedResults[req.body.index].push(req.body.result);
-    console.log(currentTask.parsedResults[req.body.index]);
-    if(currentTask.results[req.body.index].length>=successThreshold)
+    console.log(req.body.index,currentTask.parsedResults[req.body.index]);
+    if(currentTask.parsedResults[req.body.index].length>=successThreshold)
       currentTask.completeCount++;
   }
   // if all of the results are conclusive then save the table to the DB and prepare the next test
   if(currentTask.completeCount>=currentTask.parsedData.length){
-    //flatten the results table and stringify it
-    for(var i; i<currentTask.parsedResults.length;i++){
-      currentTask.parsedResults[i]=currentTask.parsedResults[i][0];
-    }
-    currentTask.results=JSON.stringify(currentTask.parsedResults);
-
-    currentTask.success();
-    console.log('done');
+    currentTask.succeed(getNextTask);
+    currentTask = null;
   }
 }
