@@ -1,9 +1,41 @@
 var Task = require('../db/taskModel.js');
 
 
-module.exports = {}
+module.exports = {};
+var _id;
+module.exports.parseParam = function (req, res, next, id) {
+  _id=id;
+  next();
+};
+
 module.exports.get = function (req, res, next, code) {
-  res.end();
+  //if it has a ? thingie
+  if(false){
+    //return that task
+  } else {
+    //magically get all them results but only fetch id, name and completed
+    var myQuery = Task.find();
+    myQuery.select('-data');
+    myQuery.select('-results');
+ 
+    myQuery.exec(function (err, items) {
+        if (!err) {
+            return res.send({result:items});
+        } else {
+            return res.send({ status: '500 Server error' });
+        }
+    });
+  }
+};
+
+module.exports.getById = function(req, res, next, code){
+  Task.where({ "_id":_id}).findOne(function(err,obj) {
+    if (!err) {
+        return res.send({result:obj});
+    } else {
+        return res.send({ status: '500 Server error' });
+    }
+  });
 };
 
 module.exports.post = function (req, res, next) {

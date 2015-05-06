@@ -1,5 +1,4 @@
 var Task = require('../db/taskModel.js');
-console.log('initializing crunchController');
 
 var failThreshold = 4;
 var successThreshold = 4;
