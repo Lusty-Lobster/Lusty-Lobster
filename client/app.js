@@ -4,6 +4,7 @@ var App = React.createClass({
     switch (this.props.route) {
       case '#crunch': Child = Crunch; break;
       case '#screensaver': Child = ScreenSaver; break;
+      case '#researcher': Child = ResearcherHome; break;
       default: Child = Login;
     }
 
@@ -22,10 +23,132 @@ var Login = React.createClass({
     return (
       <nav>
         <ul>
-          <li><a href='#'>Login as Researcher</a></li>
+          <li><a href='#researcher'>Login as Researcher</a></li>
           <li><a href='#crunch'>Login as Cruncher</a></li>
         </ul>
       </nav>
+    );
+  }
+});
+
+var ResearcherHome = React.createClass({
+  renderUploadPage: function() {
+    React.render(<Upload />, document.getElementById('researcher-content'));
+  },
+  renderResultsPage: function() {
+    React.render(<Results />, document.getElementById('researcher-content'));
+  },
+  render: function () {
+    return (
+      <nav>
+        <button onClick={this.renderUploadPage}>Upload</button>
+        <button onClick={this.renderResultsPage}>Results</button>
+        <div id='researcher-content'></div>
+      </nav>
+    );
+  }
+});
+
+var Upload = React.createClass({
+  submitJob: function() {
+    var alg = $('#alg').val();
+    var data = $('#data').val();
+    var job = {
+      data: data,
+      alg: alg.toString()
+    };
+    $.ajax({
+      url: '/api/client',
+      method: 'POST',
+      data: JSON.stringify(job),
+      success: function(res) {
+        console.log('Job POSTed to server: ', res);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('/api/client', status, err.toString());
+      }.bind(this)
+    });
+  },
+  render: function() {
+    return (
+      <div>
+        <h1>Upload</h1>
+        <textarea id='alg' placeholder='Insert algorithm' type='text'></textarea>
+        <textarea id='data' placeholder='Insert data' type='text'></textarea>
+        <button onClick={this.submitJob}>Submit</button>
+      </div>
+    );
+  }
+});
+
+var Results = React.createClass({
+  // TODO: initialize to null
+  getInitialState: function() {
+    var results = [
+      {
+        id: 'first',
+        name: 'nQueens',
+        complete: true
+      },
+      {
+        id: 'second',
+        name: 'traveling salesman',
+        complete: false
+      }
+    ];
+    return {results: results};
+  },
+  componentDidMount: function() {
+    $.ajax({
+      url: '/api/client',
+      method: 'GET',
+      dataType: 'json',
+      success: function(results) {
+        if (this.isMounted()) {
+          // TODO: take out hardcoded results
+          var results = [
+            {
+              id: 'first',
+              name: 'nQueens',
+              complete: true
+            },
+            {
+              id: 'second',
+              name: 'traveling salesman',
+              complete: false
+            }
+          ];
+          this.setState({results: results});
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('/api/client', status, err.toString());
+      }.bind(this)
+    });
+  },
+  render: function() {
+    var entries = this.state.results.map(function(entry) {
+      return (
+        <ResultEntry entry={entry}></ResultEntry>
+      );
+    });
+    return (
+      <div>
+        <h1>Results</h1>
+        <ul>
+          {entries}
+        </ul>
+      </div>
+    );
+  }
+});
+
+// TODO: Fill in for results rows
+var ResultEntry = React.createClass({
+  render: function() {
+    var task = this.props.entry;
+    return (
+      <li> {task.id}  {task.name}  {task.complete.toString()}  </li>
     );
   }
 });
@@ -76,26 +199,6 @@ var Crunch = React.createClass({
           
         }
 
-        // this.setState({task: data.result});
-
-        /* 
-
-        Using Web Workers
-        - Client: Crunch component makes GET request to signal server 
-        - Server: Server writes new task to file 'worker.js' (see example file)
-          - Updates algorithm (if needed) and data
-          - Send back task ID
-        - Client: On success, 
-            var worker = new Worker('worker.js'); (which does get request for worker.js)
-            worker.onmessage = function(e) {
-              var result = e.data;
-              // post results to server
-            };
-        - Server: receive POST and write results to whatever is storing results
-        
-        */
-
-
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('/api/crunch', status, err.toString());
@@ -125,7 +228,6 @@ var Crunch = React.createClass({
         <button onClick={this.loadTaskFromServer.bind(this, false)}>Crunch Once</button>
         <button onClick={this.loadTaskFromServer.bind(this, true)}>Crunch Forever</button>
       </div>
-      // <li><a href='#screensaver'>Crunch!</a></li>
     );
   }
 });
