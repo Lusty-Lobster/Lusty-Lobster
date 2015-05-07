@@ -1,7 +1,7 @@
 {
-  "name": "The Rabbit Hole",
-  "description": "A distributed computing solution",
-  "repository": "https://github.com/Lusty-Lobster/Lusty-Lobster",
-  "logo": "http://therabbithole.herokuapp.com/node.svg",
+  "name": "Node.js Getting Started",
+  "description": "A barebones Node.js app using Express 4",
+  "repository": "https://github.com/heroku/node-js-getting-started",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "keywords": ["node", "express", "static"]
 }
