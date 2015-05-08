@@ -8,7 +8,7 @@ var CrunchSchema = new mongoose.Schema({
   status: String, //a string holding a status message
   complete: Boolean
 });
-CrunchSchema.methods.fail = function(){
+CrunchSchema.methods.fail = function(cb){
   this.results='{}';
   this.status='failed';
   this.complete=true;
@@ -26,6 +26,17 @@ CrunchSchema.methods.succeed = function(cb){
   this.save(cb);
   console.log('succeed');
 };
+
+CrunchSchema.methods.isResponseValid = function( data ){
+  for(var i=0; i<this.parsedResults[data.index].length; i++){
+    //TODO: use a deep equals to support arrays and objects
+    //stringify works... for now... lazy...
+    if( JSON.stringify(data.result)!=JSON.stringify(this.parsedResults[data.index][i]) ){
+      return false;
+    }
+  }
+  return true;
+}
 
 var CrunchModel = mongoose.model('Crunch', CrunchSchema);
 module.exports = CrunchModel;

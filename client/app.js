@@ -55,12 +55,12 @@ var Upload = React.createClass({
     var data = $('#data').val();
     var job = {
       data: data,
-      alg: alg.toString()
+      alg: alg//.toString()
     };
     $.ajax({
       url: '/api/client',
       method: 'POST',
-      data: JSON.stringify(job),
+      data: job,//JSON.stringify(job),
       success: function(res) {
         console.log('Job POSTed to server: ', res);
       }.bind(this),
