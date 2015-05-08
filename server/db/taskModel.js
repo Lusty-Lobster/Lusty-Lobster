@@ -32,8 +32,6 @@ CrunchSchema.methods.isResponseValid = function( data ){
     //TODO: use a deep equals to support arrays and objects
     //stringify works... for now... lazy...
     if( JSON.stringify(data.result)!=JSON.stringify(this.parsedResults[data.index][i]) ){
-      this.parsedResults[data.index] = [ ];
-      this.failures[data.index] ++;
       return false;
     }
   }

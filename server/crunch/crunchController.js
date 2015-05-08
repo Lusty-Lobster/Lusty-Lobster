@@ -97,6 +97,8 @@ module.exports.post = function (req, res, next) {
       currentTask = null;
     }
   } else {
+    this.parsedResults[req.body.index] = [ ];
+    this.failures[req.body.index] ++;
     //if we have recieved too many failures then assume the test is not consistant
     if(currentTask.failures>failThreshold){
       currentTask.fail(getNextTask);
