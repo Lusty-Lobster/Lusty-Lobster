@@ -7,6 +7,15 @@ module.exports = {}
 
 var currentTask=null;
 
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 var getNextTask = function(){
   Task.where({ complete: false }).findOne( function(err,obj) {
     if(err || !obj){
@@ -18,10 +27,17 @@ var getNextTask = function(){
       obj.save(function(){
         currentTask=obj;
 
+        if(IsJsonString(currentTask.data))
+          currentTask.parsedData=JSON.parse(currentTask.data);
+        else {
+          currentTask.fail(getNextTask);
+          currentTask=null;
+          return;
+        }
+
         currentTask.index=0;
         currentTask.completeCount=0;
 
-        currentTask.parsedData=JSON.parse(currentTask.data);
         currentTask.parsedResults=[];
         currentTask.failures=[];
 
