@@ -36,9 +36,11 @@ module.exports.get = function (req, res, next) {
 module.exports.post = function (req, res, next) {
   if(!req.body.alg){
     res.send('invalid alg');
+    return;
   }
   if(!req.body.data){
     res.send('invalid data');
+    return;
   }
   console.log('new task recieved');
   var task = new Task({
