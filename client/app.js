@@ -57,12 +57,12 @@ var Upload = React.createClass({
     var job = {
       name: name,
       data: data,
-      alg: alg//.toString()
+      alg: alg
     };
     $.ajax({
       url: '/api/client',
       method: 'POST',
-      data: job,//JSON.stringify(job),
+      data: job,
       success: function(res) {
         console.log('Job POSTed to server: ', res);
       }.bind(this),
@@ -88,20 +88,8 @@ var Upload = React.createClass({
 });
 
 var Results = React.createClass({
-  // TODO: initialize to null
   getInitialState: function() {
-    var result = [
-      // {
-      //   id: 'first',
-      //   name: 'nQueens',
-      //   complete: true
-      // },
-      // {
-      //   id: 'second',
-      //   name: 'traveling salesman',
-      //   complete: false
-      // }
-    ];
+    var result = [];
     return {result: result};
   },
   componentDidMount: function() {
@@ -112,20 +100,6 @@ var Results = React.createClass({
       success: function(result) {
         console.log(result);
         if (this.isMounted()) {
-          // TODO: take out hardcoded result
-          // var result = [
-          //   {
-          //     id: 'first',
-          //     name: 'nQueens',
-          //     complete: true
-          //   },
-          //   {
-          //     id: 'second',
-          //     name: 'traveling salesman',
-          //     complete: false
-          //   }
-          // ];
-          // this.setState({result: result});
           this.setState(result);
         }
       }.bind(this),
@@ -135,7 +109,6 @@ var Results = React.createClass({
     });
   },
   render: function() {
-    console.log('state', this.state);
     var entries = this.state.result.map(function(entry) {
       return (
         <ResultEntry entry={entry}></ResultEntry>
@@ -152,10 +125,9 @@ var Results = React.createClass({
   }
 });
 
-// TODO: Fill in for results rows
 var ResultEntry = React.createClass({
   loadDetails: function(task) {
-    React.render(<ResultDetails task={task} />, document.getElementById('researcher-content'));
+    React.render(<ResultDetails task_id={task._id} />, document.getElementById('researcher-content'));
   },
   render: function() {
     var task = this.props.entry;
@@ -167,19 +139,40 @@ var ResultEntry = React.createClass({
 });
 
 var ResultDetails = React.createClass({
+  getInitialState: function() {
+    var result = [];
+    return {result: result};
+  },
+  componentDidMount: function() {
+    console.log('asdfasdfsdf'); 
+    $.ajax({
+      url: '/api/client/'+this.props.task_id,
+      method: 'GET',
+      dataType: 'json',
+      success: function(result) {
+        if (this.isMounted()) {
+          this.setState(result);
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('/api/client', status, err.toString());
+      }.bind(this)
+    });
+  },
   render: function() {
+    var task = this.state.result;
+    console.log('Results Details',task);
     return (
-      // <div> {this.props.task} </div>
       <div>
         <h1> Results Details </h1>
         <ul>
-          <li> ID: {this.props.task._id} </li>
-          <li> Name: {this.props.task.name} </li> 
-          <li> Algorithm: {this.props.task.alg} </li>
-          <li> Data: {this.props.task.data} </li>
-          <li> Results: {this.props.task.results} </li>
-          <li> Status: {this.props.task.status} </li>
-          <li> Complete: {this.props.task.complete.toString()} </li>
+          <li> ID: {task._id} </li>
+          <li> Name: {task.name} </li> 
+          <li> Algorithm: {task.alg} </li>
+          <li> Data: {task.data} </li>
+          <li> Results: {task.results} </li>
+          <li> Status: {task.status} </li>
+          <li> Complete: {task.complete} </li>
         </ul>
       </div>
     );
