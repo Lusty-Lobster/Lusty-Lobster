@@ -15,7 +15,13 @@ angular.module('crunchApp', [])
         //eval is a native function to javascript
         //converts algorithm from string to js
         console.log($scope.taskObject);
-        var result = eval($scope.taskObject.alg)($scope.taskObject.data);
+        var result;
+
+        try {
+          result = eval($scope.taskObject.alg)($scope.taskObject.data);
+        } catch (error) {
+          result = error;
+        }
 
         //post the stuff back
         $http.post('/api/crunch/', {
