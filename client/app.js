@@ -10,7 +10,7 @@ var App = React.createClass({
 
     return (
       <div>
-        <h1>App</h1>
+        <h1>Rabbit Hole</h1>
         <Child/>
       </div>
     );
@@ -51,9 +51,11 @@ var ResearcherHome = React.createClass({
 
 var Upload = React.createClass({
   submitJob: function() {
+    var name = $('#name').val() || 'anonymous';
     var alg = $('#alg').val();
     var data = $('#data').val();
     var job = {
+      name: name,
       data: data,
       alg: alg//.toString()
     };
@@ -68,13 +70,17 @@ var Upload = React.createClass({
         console.error('/api/client', status, err.toString());
       }.bind(this)
     });
+    $('#name').val('');
+    $('#alg').val('');
+    $('#data').val('');
   },
   render: function() {
     return (
       <div>
         <h1>Upload</h1>
-        <textarea id='alg' placeholder='Insert algorithm' type='text'></textarea>
-        <textarea id='data' placeholder='Insert data' type='text'></textarea>
+        <textarea id='name' placeholder='Job Name' type='text'></textarea> <br/>
+        <textarea id='alg' placeholder='Insert algorithm' type='text'></textarea> <br/>
+        <textarea id='data' placeholder='Insert data' type='text'></textarea> <br/>
         <button onClick={this.submitJob}>Submit</button>
       </div>
     );
@@ -84,41 +90,43 @@ var Upload = React.createClass({
 var Results = React.createClass({
   // TODO: initialize to null
   getInitialState: function() {
-    var results = [
-      {
-        id: 'first',
-        name: 'nQueens',
-        complete: true
-      },
-      {
-        id: 'second',
-        name: 'traveling salesman',
-        complete: false
-      }
+    var result = [
+      // {
+      //   id: 'first',
+      //   name: 'nQueens',
+      //   complete: true
+      // },
+      // {
+      //   id: 'second',
+      //   name: 'traveling salesman',
+      //   complete: false
+      // }
     ];
-    return {results: results};
+    return {result: result};
   },
   componentDidMount: function() {
     $.ajax({
       url: '/api/client',
       method: 'GET',
       dataType: 'json',
-      success: function(results) {
+      success: function(result) {
+        console.log(result);
         if (this.isMounted()) {
-          // TODO: take out hardcoded results
-          var results = [
-            {
-              id: 'first',
-              name: 'nQueens',
-              complete: true
-            },
-            {
-              id: 'second',
-              name: 'traveling salesman',
-              complete: false
-            }
-          ];
-          this.setState({results: results});
+          // TODO: take out hardcoded result
+          // var result = [
+          //   {
+          //     id: 'first',
+          //     name: 'nQueens',
+          //     complete: true
+          //   },
+          //   {
+          //     id: 'second',
+          //     name: 'traveling salesman',
+          //     complete: false
+          //   }
+          // ];
+          // this.setState({result: result});
+          this.setState(result);
         }
       }.bind(this),
       error: function(xhr, status, err) {
@@ -127,7 +135,8 @@ var Results = React.createClass({
     });
   },
   render: function() {
-    var entries = this.state.results.map(function(entry) {
+    console.log('state', this.state);
+    var entries = this.state.result.map(function(entry) {
       return (
         <ResultEntry entry={entry}></ResultEntry>
       );
@@ -145,10 +154,34 @@ var Results = React.createClass({
 
 // TODO: Fill in for results rows
 var ResultEntry = React.createClass({
+  loadDetails: function(task) {
+    React.render(<ResultDetails task={task} />, document.getElementById('researcher-content'));
+  },
   render: function() {
     var task = this.props.entry;
+    var endpoint = '/api/client/'+task._id;
     return (
-      <li> {task.id}  {task.name}  {task.complete.toString()}  </li>
+      <li onClick={this.loadDetails.bind(this, task)}> {task._id}  {task.name}  {task.complete.toString()}  </li>
+    );
+  }
+});
+
+var ResultDetails = React.createClass({
+  render: function() {
+    return (
+      // <div> {this.props.task} </div>
+      <div>
+        <h1> Results Details </h1>
+        <ul>
+          <li> ID: {this.props.task._id} </li>
+          <li> Name: {this.props.task.name} </li> 
+          <li> Algorithm: {this.props.task.alg} </li>
+          <li> Data: {this.props.task.data} </li>
+          <li> Results: {this.props.task.results} </li>
+          <li> Status: {this.props.task.status} </li>
+          <li> Complete: {this.props.task.complete.toString()} </li>
+        </ul>
+      </div>
     );
   }
 });
