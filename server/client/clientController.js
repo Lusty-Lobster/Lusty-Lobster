@@ -46,6 +46,7 @@ module.exports.post = function (req, res, next) {
   }
   console.log('new task recieved');
   var task = new Task({
+    name: req.body.name,
     alg: req.body.alg,
     data: req.body.data,
     results: '[]',
@@ -53,7 +54,7 @@ module.exports.post = function (req, res, next) {
     status: 'pending'
   }).save(function (err, task) {
     if (err) return console.error(err);
-    console.log(req.body.alg,req.body.data);
+    console.log('new task saved', task);
     res.end();
   });
 };
