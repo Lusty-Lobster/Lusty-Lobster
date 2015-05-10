@@ -81,7 +81,10 @@ var Crunch = React.createClass({
 var ScreenSaver = React.createClass({
   render: function() {
     return (
-      <iframe width={window.innerWidth} height={window.innerHeight} src='./screensaver/sprites.html'></iframe>
+      <div>
+        <a href='/#crunch'> Cruncher Home </a>
+        <iframe src='./screensaver/sprites.html'></iframe>
+      </div>
     );
   }
 });
