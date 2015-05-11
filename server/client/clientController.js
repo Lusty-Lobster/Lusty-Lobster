@@ -34,8 +34,6 @@ module.exports.get = function (req, res, next) {
 };
 
 module.exports.post = function (req, res, next) {
-      console.log('TEST');
-  console.log(req.body);
   if(!req.body.alg){
     res.send('invalid alg');
     return;

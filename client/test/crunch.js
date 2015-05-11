@@ -18,7 +18,7 @@ angular.module('crunchApp', [])
         var result;
 
         try {
-          result = eval($scope.taskObject.alg)($scope.taskObject.data);
+          result = eval($scope.taskObject.alg)(JSON.parse($scope.taskObject.data));
         } catch (error) {
           result = error;
         }
