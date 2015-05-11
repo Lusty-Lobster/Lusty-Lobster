@@ -27,7 +27,7 @@ var getNextTask = function(){
 
     obj.save(function(err, obj){
       if(err || !obj){
-        getNextTask;
+        getNextTask();
         return;
       }
       currentTask=obj;
