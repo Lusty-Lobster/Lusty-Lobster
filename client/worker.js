@@ -4,7 +4,7 @@ onmessage = function (e) {
   var data = e.data[1];
   var result;
   try {
-    result = eval('('+alg+')')(data);
+    result = eval(alg)(data);
   } catch (error) {
     result = error;
   } finally {
