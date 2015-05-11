@@ -8,9 +8,9 @@ var ResearcherHome = React.createClass({
   render: function () {
     return (
       <nav>
-        <a href='#'>Home</a>
-        <button onClick={this.renderUploadPage}>Upload</button>
-        <button onClick={this.renderResultsPage}>Results</button>
+        <a href='#'><button className ="btn btn-lg btn-default">Home</button></a>
+        <button className ="btn btn-lg btn-default" onClick={this.renderUploadPage}>Upload</button>
+        <button className ="btn btn-lg btn-default" onClick={this.renderResultsPage}>Results</button>
         <div id='researcher-content'></div>
       </nav>
     );

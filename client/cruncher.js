@@ -84,9 +84,9 @@ var Crunch = React.createClass({
   render: function() {
     return (
       <div>
-        <a href='#'>Home</a>
-        <button onClick={this.loadTaskFromServer.bind(this, false)}>Crunch Once</button>
-        <button onClick={this.loadTaskFromServer.bind(this, true)}>Crunch Forever</button>
+        <a href='#'><button className ="btn btn-lg btn-default">Home</button></a>
+        <button className ="btn btn-lg btn-default" onClick={this.loadTaskFromServer.bind(this, false)}>Crunch Once</button>
+        <button className ="btn btn-lg btn-default" onClick={this.loadTaskFromServer.bind(this, true)}>Crunch Forever</button>
       </div>
     );
   }

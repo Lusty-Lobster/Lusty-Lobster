@@ -9,10 +9,10 @@ var App = React.createClass({
     }
 
     return (
-      <div>
-        <h1>Rabbit Hole</h1>
+      // <div className="">
+      //   <h1>Rabbit Hole</h1>
         <Child/>
-      </div>
+      // </div>
     );
   }
 });
@@ -21,12 +21,28 @@ var App = React.createClass({
 var Login = React.createClass({
   render: function () {
     return (
-      <nav>
-        <ul>
-          <li><a href='#researcher'>Login as Researcher</a></li>
-          <li><a href='#crunch'>Login as Cruncher</a></li>
-        </ul>
-      </nav>
+      <div className="masthead clearfix">
+        <div className="inner">
+          <h3 className="masthead-brand">Project Rabbit Hole</h3>
+          <nav>
+            <ul className="nav masthead-nav">
+              <li><a href='#researcher'>Login as Researcher</a></li>
+              <li><a href='#crunch'>Login as Cruncher</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="inner cover">
+          <h1 className="cover-heading">Project Rabbit Hole</h1>
+          <p className="lead">Insert Rabbit Hole Stuff</p>
+        </div>
+
+        <div className="mastfoot">
+          <div className="inner">
+            <p>Project Rabbit Hole brought to you by Lusty Lobster</p>
+          </div>
+        </div>
+      </div>
     );
   }
 });
