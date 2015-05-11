@@ -8,9 +8,9 @@ var ResearcherHome = React.createClass({
   render: function () {
     return (
       <nav>
-        <a href='#'>Home</a>
-        <button onClick={this.renderUploadPage}>Upload</button>
-        <button onClick={this.renderResultsPage}>Results</button>
+        <a href='#'><button className ="btn btn-lg btn-default">Home</button></a>
+        <button className ="btn btn-lg btn-default" onClick={this.renderUploadPage}>Upload</button>
+        <button className ="btn btn-lg btn-default" onClick={this.renderResultsPage}>Results</button>
         <div id='researcher-content'></div>
       </nav>
     );
@@ -32,7 +32,7 @@ var Upload = React.createClass({
       method: 'POST',
       data: job,
       success: function(res) {
-        console.log('Job POSTed to server: ', res);
+        console.log('Job POSTed to server.');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('/api/client', status, err.toString());
@@ -124,7 +124,7 @@ var ResultEntry = React.createClass({
 
 var ResultDetails = React.createClass({
   getInitialState: function() {
-    var result = [];
+    var result = {complete: false};
     return {result: result};
   },
   componentDidMount: function() {
@@ -157,7 +157,7 @@ var ResultDetails = React.createClass({
           <li> Data: {task.data} </li>
           <li> Results: {task.results} </li>
           <li> Status: {task.status} </li>
-          <li> Complete: {task.complete} </li> 
+          <li> Complete: {task.complete.toString()} </li> 
         </ul>
       </div>
     );
