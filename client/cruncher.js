@@ -29,7 +29,11 @@ var Crunch = React.createClass({
 
             // add ajax post request call here
             console.log(context);
-            context.sendResultToServer();
+            context.sendResultToServer({
+              task: task.result.task,
+              index: task.result.index,
+              result: e.data
+            });
             // terminate webworker on completion of its job
             myWorker.terminate();
 
@@ -52,6 +56,15 @@ var Crunch = React.createClass({
   },
 
   sendResultToServer: function (result) {
+    console.log('posting: ' + result)
+    $.post( '/api/crunch', result )
+    .done(function() {
+      console.log( "success" );
+    })
+    .fail(function() {
+      console.log( "error" );
+    });
+    /*
     $.ajax({
       url: '/api/crunch',
       method: 'POST',
@@ -64,6 +77,7 @@ var Crunch = React.createClass({
         console.error('/api/crunch', status, err.toString());
       }.bind(this)
     });
+    */
   },
 
 
