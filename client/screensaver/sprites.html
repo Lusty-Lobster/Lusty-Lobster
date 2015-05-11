@@ -1,83 +1,162 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <title>three.js canvas - particles - sprites</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>three.js css3d - sprites</title>
     <style>
+      html, body {
+        height: 100%;
+      }
+
       body {
-        background-color: #000000;
-        margin: 0px;
+        background-color: #ffffff;
+        margin: 0;
+        font-family: Arial;
         overflow: hidden;
       }
 
       a {
-        color:#0078ff;
+        color: #8888ff;
+      }
+
+      #info {
+        position: absolute;
+        width: 100%;
+        color: #000000;
+        padding: 5px;
+        font-family: Monospace;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        z-index: 1;
       }
     </style>
   </head>
   <body>
-
     <script src="../lib/three.min.js"></script>
-
-    <script src="../lib/renderers/Projector.js"></script>
-    <script src="../lib/renderers/CanvasRenderer.js"></script>
-
-    <!-- <script src="../lib/stats.min.js"></script> -->
     <script src="../lib/tween.min.js"></script>
+    <script src="./renderers/TrackballControls.js"></script>
+    <script src="./renderers/CSS3DRenderer.js"></script>
+
+    <div id="container"></div>
+    <!-- <div id="info"><a href="http://threejs.org" target="_blank">three.js css3d</a> - sprites.</div> -->
 
     <script>
 
-      var container;
-      // var stats;
-      var camera, scene, renderer, particle;
-      var mouseX = 0, mouseY = 0;
+      var camera, scene, renderer;
+      var controls;
 
-      var windowHalfX = window.innerWidth / 2;
-      var windowHalfY = window.innerHeight / 2;
+      var particlesTotal = 512;
+      var positions = [];
+      var objects = [];
+      var current = 0;
 
       init();
       animate();
 
       function init() {
 
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
-
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
-        camera.position.z = 1000;
+        camera.position.set( 600, 400, 1500 );
+        camera.lookAt( new THREE.Vector3() );
 
         scene = new THREE.Scene();
 
-        var material = new THREE.SpriteMaterial( {
-          map: new THREE.Texture( generateSprite() ),
-          blending: THREE.AdditiveBlending
-        } );
+        var image = document.createElement( 'img' );
+        image.addEventListener( 'load', function ( event ) {
 
-        for ( var i = 0; i < 1000; i++ ) {
+          for ( var i = 0; i < particlesTotal; i ++ ) {
 
-          particle = new THREE.Sprite( material );
+            var object = new THREE.CSS3DSprite( image.cloneNode() );
+            object.position.x = Math.random() * 4000 - 2000,
+            object.position.y = Math.random() * 4000 - 2000,
+            object.position.z = Math.random() * 4000 - 2000
+            scene.add( object );
 
-          initParticle( particle, i * 10 );
+            objects.push( object );
 
-          scene.add( particle );
+          }
+
+          transition();
+
+        }, false );
+        image.src = './sprite.png';
+
+        // Plane
+
+        var amountX = 16;
+        var amountZ = 32;
+        var separation = 150;
+        var offsetX = ( ( amountX - 1 ) * separation ) / 2;
+        var offsetZ = ( ( amountZ - 1 ) * separation ) / 2;
+
+        for ( var i = 0; i < particlesTotal; i ++ ) {
+
+          var x = ( i % amountX ) * separation;
+          var z = Math.floor( i / amountX ) * separation;
+          var y = ( Math.sin( x * 0.5 ) + Math.sin( z * 0.5 ) ) * 200;
+
+          positions.push( x - offsetX, y, z - offsetZ );
+
         }
 
-        renderer = new THREE.CanvasRenderer();
-        renderer.setClearColor( 0x000040 );
-        renderer.setPixelRatio( window.devicePixelRatio );
+        // Cube
+
+        var amount = 8;
+        var separation = 150;
+        var offset = ( ( amount - 1 ) * separation ) / 2;
+
+        for ( var i = 0; i < particlesTotal; i ++ ) {
+
+          var x = ( i % amount ) * separation;
+          var y = Math.floor( ( i / amount ) % amount ) * separation;
+          var z = Math.floor( i / ( amount * amount ) ) * separation;
+
+          positions.push( x - offset, y - offset, z - offset );
+
+        }
+
+        // Random
+
+        for ( var i = 0; i < particlesTotal; i ++ ) {
+
+          positions.push(
+            Math.random() * 4000 - 2000,
+            Math.random() * 4000 - 2000,
+            Math.random() * 4000 - 2000
+          );
+
+        }
+
+        // Sphere
+
+        var radius = 750;
+
+        for ( var i = 0; i < particlesTotal; i ++ ) {
+
+          var phi = Math.acos( -1 + ( 2 * i ) / particlesTotal );
+          var theta = Math.sqrt( particlesTotal * Math.PI ) * phi;
+
+          positions.push(
+            radius * Math.cos( theta ) * Math.sin( phi ),
+            radius * Math.sin( theta ) * Math.sin( phi ),
+            radius * Math.cos( phi )
+          );
+
+        }
+
+        //
+
+        renderer = new THREE.CSS3DRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
-        container.appendChild( renderer.domElement );
+        renderer.domElement.style.position = 'absolute';
+        document.getElementById( 'container' ).appendChild( renderer.domElement );
 
-        // stats = new Stats();
-        // stats.domElement.style.position = 'absolute';
-        // stats.domElement.style.top = '0px';
-        // container.appendChild( stats.domElement );
+        //
 
-        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-        document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 0.5;
 
         //
 
@@ -87,9 +166,6 @@
 
       function onWindowResize() {
 
-        windowHalfX = window.innerWidth / 2;
-        windowHalfY = window.innerHeight / 2;
-
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
@@ -97,104 +173,51 @@
 
       }
 
-      function generateSprite() {
+      function transition() {
 
-        var canvas = document.createElement( 'canvas' );
-        canvas.width = 16;
-        canvas.height = 16;
+        var offset = current * particlesTotal * 3;
+        var duration = 2000;
 
-        var context = canvas.getContext( '2d' );
-        var gradient = context.createRadialGradient( canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2 );
-        gradient.addColorStop( 0, 'rgba(255,255,255,1)' );
-        gradient.addColorStop( 0.2, 'rgba(0,255,255,1)' );
-        gradient.addColorStop( 0.4, 'rgba(0,0,64,1)' );
-        gradient.addColorStop( 1, 'rgba(0,0,0,1)' );
+        for ( var i = 0, j = offset; i < particlesTotal; i ++, j += 3 ) {
 
-        context.fillStyle = gradient;
-        context.fillRect( 0, 0, canvas.width, canvas.height );
+          var object = objects[ i ];
 
-        return canvas;
-
-      }
-
-      function initParticle( particle, delay ) {
-
-        var particle = this instanceof THREE.Sprite ? this : particle;
-        var delay = delay !== undefined ? delay : 0;
-
-        particle.position.set( 0, 0, 0 )
-        particle.scale.x = particle.scale.y = Math.random() * 32 + 16;
-
-        new TWEEN.Tween( particle )
-          .delay( delay )
-          .to( {}, 10000 )
-          .onComplete( initParticle )
-          .start();
-
-        new TWEEN.Tween( particle.position )
-          .delay( delay )
-          .to( { x: Math.random() * 4000 - 2000, y: Math.random() * 1000 - 500, z: Math.random() * 4000 - 2000 }, 10000 )
-          .start();
-
-        new TWEEN.Tween( particle.scale )
-          .delay( delay )
-          .to( { x: 0, y: 0 }, 10000 )
-          .start();
-
-      }
-
-      //
-
-      function onDocumentMouseMove( event ) {
-
-        mouseX = event.clientX - windowHalfX;
-        mouseY = event.clientY - windowHalfY;
-      }
-
-      function onDocumentTouchStart( event ) {
-
-        if ( event.touches.length == 1 ) {
-
-          event.preventDefault();
-
-          mouseX = event.touches[ 0 ].pageX - windowHalfX;
-          mouseY = event.touches[ 0 ].pageY - windowHalfY;
+          new TWEEN.Tween( object.position )
+            .to( {
+              x: positions[ j ],
+              y: positions[ j + 1 ],
+              z: positions[ j + 2 ]
+            }, Math.random() * duration + duration )
+            .easing( TWEEN.Easing.Exponential.InOut )
+            .start();
 
         }
 
-      }
+        new TWEEN.Tween( this )
+          .to( {}, duration * 3 )
+          .onComplete( transition )
+          .start();
 
-      function onDocumentTouchMove( event ) {
-
-        if ( event.touches.length == 1 ) {
-
-          event.preventDefault();
-
-          mouseX = event.touches[ 0 ].pageX - windowHalfX;
-          mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
-        }
+        current = ( current + 1 ) % 4;
 
       }
-
-      //
 
       function animate() {
 
         requestAnimationFrame( animate );
 
-        render();
-        // stats.update();
-
-      }
-
-      function render() {
-
         TWEEN.update();
+        controls.update();
 
-        camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-        camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
-        camera.lookAt( scene.position );
+        var time = performance.now();
+
+        for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+          var object = objects[ i ];
+          var scale = Math.sin( ( Math.floor( object.position.x ) + time ) * 0.002 ) * 0.3 + 1;
+          object.scale.set( scale, scale, scale );
+
+        }
 
         renderer.render( scene, camera );
 
