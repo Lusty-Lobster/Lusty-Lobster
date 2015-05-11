@@ -1,7 +1,7 @@
 var Task = require('../db/taskModel.js');
 
 var failThreshold = 4;
-var successThreshold = 4;
+var successThreshold = 2;
 
 module.exports = {}
 
@@ -30,8 +30,6 @@ var getNextTask = function(){
         getNextTask;
         return;
       }
-      console.log('saved updated task');
-      console.log(obj);
       currentTask=obj;
 
       if(IsJsonString(currentTask.data))

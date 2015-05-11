@@ -21,7 +21,6 @@ CrunchSchema.methods.succeed = function(cb){
     this.parsedResults[i]=this.parsedResults[i][0];
   }
   this.results=JSON.stringify(this.parsedResults);
-  console.log(this.results);
   this.status='complete';
   this.complete=true;
   this.save(cb);
