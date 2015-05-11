@@ -39,7 +39,11 @@ var Crunch = React.createClass({
 
             // check to see if we want to repeat get request forever
             if (repeat) {
-              context.loadTaskFromServer(true);
+              if (task.result.task === -1) {
+                setTimeout(function () {context.loadTaskFromServer(true)}, 5000);
+              } else {
+                context.loadTaskFromServer(true);
+              }
             } else {
               // switch back to crunch page on completion of web worker
               window.location.hash = '#crunch';
@@ -56,7 +60,7 @@ var Crunch = React.createClass({
   },
 
   sendResultToServer: function (result) {
-    console.log('posting: ' + result)
+    console.log('posting: ' + result);
     $.post( '/api/crunch', result )
     .done(function() {
       console.log( "success" );
@@ -96,7 +100,7 @@ var ScreenSaver = React.createClass({
   render: function() {
     return (
       <div>
-        <a href='/#crunch'> Cruncher Home </a>
+        <a href='/#crunch'><button className="btn btn-lg btn-default">Cruncher Home</button></a>
         <iframe src='./screensaver/sprites.html'></iframe>
       </div>
     );
