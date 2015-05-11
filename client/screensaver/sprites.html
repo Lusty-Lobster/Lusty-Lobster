@@ -24,12 +24,13 @@
     <script src="../lib/renderers/Projector.js"></script>
     <script src="../lib/renderers/CanvasRenderer.js"></script>
 
-    <script src="../lib/stats.min.js"></script>
+    <!-- <script src="../lib/stats.min.js"></script> -->
     <script src="../lib/tween.min.js"></script>
 
     <script>
 
-      var container, stats;
+      var container;
+      // var stats;
       var camera, scene, renderer, particle;
       var mouseX = 0, mouseY = 0;
 
@@ -69,10 +70,10 @@
         renderer.setSize( window.innerWidth, window.innerHeight );
         container.appendChild( renderer.domElement );
 
-        stats = new Stats();
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.top = '0px';
-        container.appendChild( stats.domElement );
+        // stats = new Stats();
+        // stats.domElement.style.position = 'absolute';
+        // stats.domElement.style.top = '0px';
+        // container.appendChild( stats.domElement );
 
         document.addEventListener( 'mousemove', onDocumentMouseMove, false );
         document.addEventListener( 'touchstart', onDocumentTouchStart, false );
@@ -183,7 +184,7 @@
         requestAnimationFrame( animate );
 
         render();
-        stats.update();
+        // stats.update();
 
       }
 
