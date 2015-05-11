@@ -55,12 +55,25 @@ var Upload = React.createClass({
   }
 });
 
-var Results = React.createClass({
-  getInitialState: function() {
-    var result = [];
-    return {result: result};
+var SetIntervalMixin = {
+  componentWillMount: function() {
+    this.intervals = [];
   },
-  componentDidMount: function() {
+  setInterval: function() {
+    this.intervals.push(setInterval.apply(null, arguments));
+  },
+  componentWillUnmount: function() {
+    this.intervals.map(clearInterval);
+  }
+};
+
+var Results = React.createClass({
+  mixins: [SetIntervalMixin],
+  getInitialState: function() {
+    return {result: []};
+  },
+  getResults: function() {
+    console.log('getting results');
     $.ajax({
       url: '/api/client',
       method: 'GET',
@@ -75,6 +88,9 @@ var Results = React.createClass({
         console.error('/api/client', status, err.toString());
       }.bind(this)
     });
+  },
+  componentDidMount: function() {
+    this.setInterval(this.getResults, 500);
   },
   render: function() {
     var entries = this.state.result.map(function(entry) {

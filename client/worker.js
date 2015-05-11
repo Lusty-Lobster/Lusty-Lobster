@@ -2,9 +2,14 @@ onmessage = function (e) {
   console.log('Algorithm and data recieved from Rabbit Hole');
   var alg = e.data[0];
   var data = e.data[1];
-
-  var result = eval(alg)(data);
-  postMessage(result);
+  var result;
+  try {
+    result = eval(alg)(data);
+  } catch (error) {
+    result = error;
+  } finally {
+    postMessage(result);
+  }
 };
 
 
