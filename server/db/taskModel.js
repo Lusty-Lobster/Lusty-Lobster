@@ -17,7 +17,7 @@ CrunchSchema.methods.fail = function(cb){
 };
 CrunchSchema.methods.succeed = function(cb){
   //flatten the results table and stringify it
-  for(var i; i<this.parsedResults.length;i++){
+  for(var i = 0; i<this.parsedResults.length; i++){
     this.parsedResults[i]=this.parsedResults[i][0];
   }
   this.results=JSON.stringify(this.parsedResults);

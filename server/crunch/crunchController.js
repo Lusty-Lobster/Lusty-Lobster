@@ -1,7 +1,7 @@
 var Task = require('../db/taskModel.js');
 
 var failThreshold = 4;
-var successThreshold = 4;
+var successThreshold = 2;
 
 module.exports = {}
 
@@ -20,33 +20,37 @@ var getNextTask = function(){
   Task.where({ complete: false }).findOne( function(err,obj) {
     if(err || !obj){
       getNextTask();
-    } else {
-      console.log('processing new task');
-      obj.status = 'processing';
-
-      obj.save(function(){
-        currentTask=obj;
-
-        if(IsJsonString(currentTask.data))
-          currentTask.parsedData=JSON.parse(currentTask.data);
-        else {
-          currentTask.fail(getNextTask);
-          currentTask=null;
-          return;
-        }
-
-        currentTask.index=0;
-        currentTask.completeCount=0;
-
-        currentTask.parsedResults=[];
-        currentTask.failures=[];
-
-        for(var i=0; i<currentTask.parsedData.length;i++){
-          currentTask.parsedResults[i]=[];
-          currentTask.failures[i]=0;
-        }
-      });
+      return;
     }
+    console.log('processing new task');
+    obj.status = 'processing';
+
+    obj.save(function(err, obj){
+      if(err || !obj){
+        getNextTask();
+        return;
+      }
+      currentTask=obj;
+
+      if(IsJsonString(currentTask.data))
+        currentTask.parsedData=JSON.parse(currentTask.data);
+      else {
+        currentTask.fail(getNextTask);
+        currentTask=null;
+        return;
+      }
+
+      currentTask.index=0;
+      currentTask.completeCount=0;
+
+      currentTask.parsedResults=[];
+      currentTask.failures=[];
+
+      for(var i=0; i<currentTask.parsedData.length;i++){
+        currentTask.parsedResults[i]=[];
+        currentTask.failures[i]=0;
+      }
+    });
   });
 };
 getNextTask();

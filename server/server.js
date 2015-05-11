@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 //mongoose.connect();
 
-mongoose.connect(process.env.MONGO_U || 'mongodb://localhost/rabbithole');
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/rabbithole');
 
 var express  = require('express');
 var app = express();
