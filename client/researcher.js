@@ -38,9 +38,9 @@ var Upload = React.createClass({
         console.error('/api/client', status, err.toString());
       }.bind(this)
     });
-    $('#name').val('');
-    $('#alg').val('');
-    $('#data').val('');
+    // $('#name').val('');
+    // $('#alg').val('');
+    // $('#data').val('');
   },
   render: function() {
     return (
