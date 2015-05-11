@@ -32,7 +32,7 @@ var Upload = React.createClass({
       method: 'POST',
       data: job,
       success: function(res) {
-        console.log('Job POSTed to server: ', res);
+        console.log('Job POSTed to server.');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('/api/client', status, err.toString());
