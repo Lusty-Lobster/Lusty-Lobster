@@ -124,7 +124,7 @@ var ResultEntry = React.createClass({
 
 var ResultDetails = React.createClass({
   getInitialState: function() {
-    var result = [];
+    var result = {complete: false};
     return {result: result};
   },
   componentDidMount: function() {
@@ -157,7 +157,7 @@ var ResultDetails = React.createClass({
           <li> Data: {task.data} </li>
           <li> Results: {task.results} </li>
           <li> Status: {task.status} </li>
-          <li> Complete: {task.complete} </li> 
+          <li> Complete: {task.complete.toString()} </li> 
         </ul>
       </div>
     );

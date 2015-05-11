@@ -5,7 +5,7 @@ onmessage = function (e) {
   var result;
   
   try {
-    result = eval(alg)(data);
+    result = eval(alg)(JSON.parse(data));
   } catch (error) {
     result = error;
   } finally {
