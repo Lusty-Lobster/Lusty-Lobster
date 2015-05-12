@@ -59,6 +59,7 @@ var Crunch = React.createClass({
     });    
   },
 
+  // Post results retreived from webworker to the server
   sendResultToServer: function (result) {
     console.log('posting: ' + result);
     $.post( '/api/crunch', result )
@@ -68,20 +69,6 @@ var Crunch = React.createClass({
     .fail(function() {
       console.log( "error" );
     });
-    /*
-    $.ajax({
-      url: '/api/crunch',
-      method: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(result),
-      success: function(res) {
-        console.log('Result POSTed to server: ', res);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error('/api/crunch', status, err.toString());
-      }.bind(this)
-    });
-    */
   },
 
 
@@ -96,6 +83,7 @@ var Crunch = React.createClass({
   }
 });
 
+// Screensaver page
 var ScreenSaver = React.createClass({
   render: function() {
     return (

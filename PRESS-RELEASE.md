@@ -19,26 +19,23 @@ Once the project moves into development, the press release can be used as a touc
 ## Distributed Processesing Platform ##
   > Have a ton of a data that you need to crunch but are stingy with your CPU cycles?  Fear not, Rabbit Hole is here to help.
 
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
-## Summary ##
+## Our Product ##
   > We provide a platform for outsourcing your data processing for faster results.  When you need to process large amounts of data you can free up your own computer resources by distributing the task to other computers.
 
-## Problem ##
+## We Can Help ##
   > Rabbit Hole is an easy to use solution for data scientists and engineers to quickly process very large amounts of data.
 
-## Solution ##
+## Solution For Your Problems ##
   > We distribute your data across our cloud of users, who take care of the processing of your data for you.
 
-## Quote from You ##
+## Quote from our CEO ##
   > "Sit back and relax, we'll handle your big data crunching needs for you.  Let's jump down that rabbit hole together!"
 
 ## How to Get Started ##
-  > Just sign up, upload your algorithm and data set, and we will do the rest!
+  > Just sign up, upload your algorithm and data set, and we will do the rest! Check out our [README](https://github.com/Lusty-Lobster/Lusty-Lobster/blob/master/README.md) today!
 
-## Customer Quote ##
+## What Our Customers Think ##
   > "Why are you called Rabbit Hole..., but thank you so much for doing my data computing for me, now I have time to use my computer for other things!"
 
-## Closing and Call to Action ##
-  > Tired of waiting around while your computer crunches your data set?  Just head to Rabbit-Hole.com (brought to you by Lusty Lobster), and get started with using our cloud data computing today!
+## What Are You Waiting For? ##
+  > Tired of waiting around while your computer crunches your data set?  Just head to [Project Rabbit Hole](https://therabbithole.herokuapp.com) (brought to you by Lusty Lobster), and get started with using our cloud data computing today!

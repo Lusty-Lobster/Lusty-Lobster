@@ -81,7 +81,9 @@ body {
   font-size: 16px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
-  color: rgba(255,255,255,.75);
+  color: rgba(54, 147, 16, 0.75);
+  /*(13, 42, 187, 0.75);*/
+  /*(54, 147, 16, 0.75)*/
   border-bottom: 2px solid transparent;
 }
 .masthead-nav > li > a:hover,
@@ -126,7 +128,7 @@ body {
 
 .mastfoot {
   color: #999; /* IE8 proofing */
-  color: rgba(255,255,255,.5);
+  color: rgba(0,0,0,.5);
 }
 
 

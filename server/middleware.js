@@ -5,8 +5,8 @@ var clientController = require('./client/clientController.js');
 
 module.exports = function (app, express) {
 
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true, limit: '250mb'}));
+  app.use(bodyParser.json({limit: '250mb'}));
   app.use(express.static(__dirname + './../client'));
 
   //This doesnt work...

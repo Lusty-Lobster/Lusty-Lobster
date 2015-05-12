@@ -1,6 +1,8 @@
 var App = React.createClass({
   render: function() {
     var Child;
+
+    // Front end router to change pages on the homepage
     switch (this.props.route) {
       case '#crunch': Child = Crunch; break;
       case '#screensaver': Child = ScreenSaver; break;
@@ -9,21 +11,18 @@ var App = React.createClass({
     }
 
     return (
-      // <div className="">
-      //   <h1>Rabbit Hole</h1>
-        <Child/>
-      // </div>
+      <Child/>
     );
   }
 });
 
-
+// REACT HOMEPAGE
 var Login = React.createClass({
   render: function () {
     return (
       <div className="masthead clearfix">
         <div className="inner">
-          <h3 className="masthead-brand">Project Rabbit Hole</h3>
+          <h3 className="masthead-brand"></h3>
           <nav>
             <ul className="nav masthead-nav">
               <li><a href='#researcher'>Login as Researcher</a></li>
@@ -34,7 +33,8 @@ var Login = React.createClass({
 
         <div className="inner cover">
           <h1 className="cover-heading">Project Rabbit Hole</h1>
-          <p className="lead">Insert Rabbit Hole Stuff</p>
+          <p className="lead">We provide a platform for outsourcing your data processing for faster results.</p>
+          <p>Quote from our customer: "Why are you called Rabbit Hole..., but thank you so much for doing my data computing for me, now I have time to use my computer for other things!"</p>
         </div>
 
         <div className="mastfoot">
@@ -53,6 +53,7 @@ function render() {
   React.render(<App route={route} />, document.getElementById('main-content'));
 }
 
+// Listener to see when "#page" changes
 window.addEventListener('hashchange', render);
 render();
 

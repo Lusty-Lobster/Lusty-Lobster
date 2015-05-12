@@ -92,7 +92,8 @@ module.exports.post = function (req, res, next) {
 
   if(currentTask.isResponseValid(req.body)){
     currentTask.parsedResults[req.body.index].push(req.body.result);
-    console.log(req.body.index,currentTask.parsedResults[req.body.index]);
+    // console.log(req.body.index,currentTask.parsedResults[req.body.index]);
+    console.log("Result Recieved");
     if(currentTask.parsedResults[req.body.index].length>=successThreshold)
       currentTask.completeCount++;
     // if all of the results are conclusive then save the table to the DB and prepare the next test
