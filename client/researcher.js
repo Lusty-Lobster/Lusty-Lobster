@@ -1,3 +1,4 @@
+// RESEARCHER HOME PAGE
 var ResearcherHome = React.createClass({
   renderUploadPage: function() {
     React.render(<Upload />, document.getElementById('researcher-content'));
@@ -17,6 +18,7 @@ var ResearcherHome = React.createClass({
   }
 });
 
+// UPLOAD RESEARCHER PAGE
 var Upload = React.createClass({
   submitJob: function() {
     var name = $('#name').val() || 'anonymous';
@@ -47,14 +49,16 @@ var Upload = React.createClass({
       <div>
         <h1>Upload</h1>
         <textarea id='name' placeholder='Job Name' type='text'></textarea> <br/>
-        <textarea id='alg' placeholder='Insert algorithm' type='text'></textarea> <br/>
-        <textarea id='data' placeholder='Insert data' type='text'></textarea> <br/>
-        <button onClick={this.submitJob}>Submit</button>
+        <textarea rows="10" cols="50" id='alg' placeholder='Insert algorithm' type='text'></textarea> <br/>
+        <textarea rows="10" cols="50" id='data' placeholder='Insert data' type='text'></textarea> <br/>
+        <button className="btn btn-default" onClick={this.submitJob}>Submit</button>
       </div>
     );
   }
 });
 
+// Interval function which will run once results is clicked to continually
+// get result summaries
 var SetIntervalMixin = {
   componentWillMount: function() {
     this.intervals = [];
@@ -67,6 +71,7 @@ var SetIntervalMixin = {
   }
 };
 
+// RESULTS RESEARCHER PAGE
 var Results = React.createClass({
   mixins: [SetIntervalMixin],
   getInitialState: function() {
@@ -109,6 +114,7 @@ var Results = React.createClass({
   }
 });
 
+// SUBVIEW FOR RESULTS COMPONENT
 var ResultEntry = React.createClass({
   loadDetails: function(task) {
     React.render(<ResultDetails task_id={task._id} />, document.getElementById('researcher-content'));
@@ -122,11 +128,15 @@ var ResultEntry = React.createClass({
   }
 });
 
+// RESULTS DETAILS FOR A GIVEN JOB
 var ResultDetails = React.createClass({
   getInitialState: function() {
     var result = {complete: false};
     return {result: result};
   },
+
+  // On react component loading, issues GET request to server
+  // to retrieve results data
   componentDidMount: function() {
     console.log('asdfasdfsdf'); 
     $.ajax({
@@ -143,21 +153,23 @@ var ResultDetails = React.createClass({
       }.bind(this)
     });
   },
+
+  // Render the retrieved results data
   render: function() {
     var task = this.state.result;
     console.log('Results Details',task);
-    // TODO: fix task.complete - not showing up...
+    
     return (
       <div>
         <h1> Results Details </h1>
         <ul>
-          <li> ID: {task._id} </li>
-          <li> Name: {task.name} </li> 
-          <li> Algorithm: {task.alg} </li>
-          <li> Data: {task.data} </li>
-          <li> Results: {task.results} </li>
-          <li> Status: {task.status} </li>
-          <li> Complete: {task.complete.toString()} </li> 
+          <li><strong> ID:</strong>{task._id} </li>
+          <li><strong> Name:</strong> {task.name} </li> 
+          <li><strong> Algorithm:</strong> {task.alg} </li>
+          <li><strong> Data:</strong> {task.data} </li>
+          <li><strong> Results:</strong> {task.results} </li>
+          <li><strong> Status:</strong> {task.status} </li>
+          <li><strong> Complete:</strong> {task.complete.toString()} </li> 
         </ul>
       </div>
     );
