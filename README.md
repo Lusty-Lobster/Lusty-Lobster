@@ -1,14 +1,14 @@
 [Website](https://therabbithole.herokuapp.com/)
 
-# Project Name
+# Project Rabbit Hole
 
-> Pithy project description
+> Toss your algorithms down the rabbit hole, and something good will come of it.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: David Hopper
+  - __Scrum Master__: John Winstead
+  - __Development Team Members__: Katrina Uychaco, Joseph Lin
 
 ## Table of Contents
 
@@ -22,15 +22,16 @@
 
 ## Usage
 
-> Some usage instructions
+> In order to upload Algorithms, need to wrap the function in parentheses.
+> Be sure that the data you upload is in JSON format (Use an online JSON formatter/validator).
 
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Express 4.4.5
+- Mongoose 4.0.2
+- React 0.13.2
+- Grunt 0.4.5
 
 ## Development
 
@@ -39,14 +40,15 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
+
 npm install
-bower install
+grunt
+
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/Lusty-Lobster/Lusty-Lobster/issues)
 
 
 ## Contributing
