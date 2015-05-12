@@ -56,4 +56,6 @@ var powerSetWord = function(string) {
   return solutions.sort();
 };
 
+var str = ["I cry into wool, Crimson stains remain, alone,  Like shit on the moon.", "a springtime ribbit awash in dump truck headlights-- green gravel pancakes", "There once was a man called Bob, who... oh shit, that's wrong --that's a limerick!", "oh yellow flower! how you make my allergies bloom like spring morning."];
 
+console.log(powerSetWord(str[0]));
