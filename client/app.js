@@ -15,7 +15,8 @@ var App = React.createClass({
     );
   }
 });
-
+// <p>Quote from our customer: "Why are you called Rabbit Hole..., but thank you so much for doing my data computing for me, now I have time to use my computer for other things!"</p>
+        
 // REACT HOMEPAGE
 var Login = React.createClass({
   render: function () {
@@ -34,7 +35,6 @@ var Login = React.createClass({
         <div className="inner cover">
           <h1 className="cover-heading">Project Rabbit Hole</h1>
           <p className="lead">We provide a platform for outsourcing your data processing for faster results.</p>
-          <p>Quote from our customer: "Why are you called Rabbit Hole..., but thank you so much for doing my data computing for me, now I have time to use my computer for other things!"</p>
         </div>
 
         <div className="mastfoot">
